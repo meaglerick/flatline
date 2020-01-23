@@ -24,7 +24,7 @@ services:
     depends_on:
       - mysql
   mysql:
-    image: mysql:5.7
+    image: linuxserver/mariadb:latest
     environment:
         MYSQL_DATABASE: ${DB_DATABASE}
         MYSQL_USER: ${DB_USERNAME}
