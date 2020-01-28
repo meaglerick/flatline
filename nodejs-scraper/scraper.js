@@ -21,7 +21,8 @@ const connection = mysql.createConnection({
 });
 
 const ipRange = cleanENV(process.env.SCAN_RANGE) || "192.168.0.2-192.168.0.254";
-const ipv4CIDR = getIPRange(ipRange);
+var iparrays = [getIPRange("10.11.11.0/24"), getIPRange["172.16.99.0/24"], getIPRange("172.20.0.0/24"), getIPRange("192.168.0.0/24")]
+//const ipv4CIDR = getIPRange(ipRange);
 const scan_interval = process.env.SCAN_INTERVAL || 50;
 
 function error(err) {
@@ -32,6 +33,7 @@ function scanNetwork() {
 	return new Promise(async (resolve, reject) => {
 		let hosts = [];
 
+		for (var i = 0; i < iparrays.length; i++) {
 		await Promise.all(ipv4CIDR.map(async (hostIP) => {	
 			let alive = await isAlive(hostIP);
 
@@ -52,7 +54,9 @@ function scanNetwork() {
 					});
 				}
 			}
-		}));
+		}
+		)
+		);};
 
 		resolve(hosts);
 	}).catch(error);
